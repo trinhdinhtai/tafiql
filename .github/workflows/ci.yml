@@ -7,17 +7,33 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Windows-first (ADR 0002): gpui builds natively on Windows runners
+    # with no system dependencies to install.
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: dtolnay/rust-toolchain@stable
+      # Explicitly the version pinned in rust-toolchain.toml (AC: pinned
+      # stable toolchain).
+      - uses: dtolnay/rust-toolchain@1.99.1
 
-      - name: Build and test
-        run: |
-          if [ ! -f Cargo.toml ]; then
-            echo "No Cargo.toml yet - CI activates cargo build/test once Rust code lands."
-            exit 0
-          fi
-          cargo build --workspace --all-targets
-          cargo test --workspace
+      # rustup resolves the pinned toolchain from rust-toolchain.toml for
+      # every command below; this ensures fmt/clippy exist in it.
+      - name: Add fmt and clippy to the pinned toolchain
+        run: rustup component add rustfmt clippy
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Format
+        run: cargo fmt --all --check
+
+      - name: Clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Tests
+        run: cargo test --workspace
+
+      # Criterion smoke: short measurements so CI stays fast while proving
+      # the Performance Budget harness works end to end (ADR 0004).
+      - name: Criterion smoke
+        run: cargo bench -p tafiql-core --bench smoke -- --sample-size 10 --warm-up-time 1 --measurement-time 2

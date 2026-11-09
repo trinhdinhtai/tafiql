@@ -1,0 +1,15 @@
+[package]
+name = "tafiql-app"
+description = "tafiql's GPUI frontend: windows, Result Grid rendering, i18n shell"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+gpui = "0.2.2"
+fluent = "0.17"
+unic-langid = { version = "0.9", features = ["macros"] }
+
+[features]
+default = []
