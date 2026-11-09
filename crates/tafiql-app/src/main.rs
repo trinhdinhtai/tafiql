@@ -7,8 +7,8 @@ mod i18n;
 mod theme;
 
 use gpui::{
-    div, prelude::*, px, size, App, Application, Context, FontWeight, TitlebarOptions, Window,
-    WindowBounds, WindowOptions,
+    div, prelude::*, px, size, App, Application, Bounds, Context, FontWeight, TitlebarOptions,
+    Window, WindowBounds, WindowOptions,
 };
 
 use i18n::{I18n, UiLanguage};
@@ -24,7 +24,11 @@ fn main() {
                 appears_transparent: false,
                 traffic_light_position: None,
             }),
-            window_bounds: Some(WindowBounds::Windowed(size(px(1024.), px(640.)))),
+            window_bounds: Some(WindowBounds::Windowed(Bounds::centered(
+                None,
+                size(px(1024.), px(640.)),
+                cx,
+            ))),
             ..Default::default()
         };
 
