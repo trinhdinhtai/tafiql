@@ -1,0 +1,16 @@
+[workspace]
+resolver = "2"
+members = ["crates/tafiql-core", "crates/tafiql-app"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/trinhdinhtai/tafiql"
+
+[workspace.dependencies]
+criterion = "0.7"
+
+[profile.bench]
+# Keep debug symbols so criterion flamegraphs stay readable.
+debug = true
