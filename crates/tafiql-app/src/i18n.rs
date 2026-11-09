@@ -85,10 +85,6 @@ impl I18n {
         }
     }
 
-    pub fn language(&self) -> UiLanguage {
-        self.language
-    }
-
     pub fn set_language(&mut self, language: UiLanguage) {
         self.language = language;
     }
