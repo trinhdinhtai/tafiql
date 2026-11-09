@@ -5,7 +5,8 @@
 //! This is a smoke test that the harness works end to end; real grid and
 //! fetch benchmarks land with the engine itself.
 
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{criterion_group, criterion_main, Criterion};
+use std::hint::black_box;
 use tafiql_core::{RowKey, SimulatedSource};
 
 fn bench_keyset_windows(c: &mut Criterion) {
