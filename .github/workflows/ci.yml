@@ -37,3 +37,14 @@ jobs:
       # the Performance Budget harness works end to end (ADR 0004).
       - name: Criterion smoke
         run: cargo bench -p tafiql-core --bench smoke -- --sample-size 10 --warm-up-time 1 --measurement-time 2
+
+      # Runnable build, published as a downloadable artifact on every run.
+      - name: Build release binary
+        run: cargo build --release -p tafiql-app
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tafiql-app-windows-x64
+          path: target/release/tafiql-app.exe
+          if-no-files-found: error
